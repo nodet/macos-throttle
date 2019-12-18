@@ -24,6 +24,8 @@ dummynet in proto icmp all pipe 2
 dummynet in proto tcp to any port 443 pipe 2
 dummynet in proto tcp to any port 80 pipe 2
 dummynet in proto tcp to any port 22 pipe 2
+no dummynet quick on lo0 all
+dummynet out all pipe 3
 EOF
 
 # Create the dummynet queue
@@ -31,6 +33,8 @@ EOF
 #dnctl pipe 2 config queue 50
 dnctl pipe 1 config bw 300Kbyte/s queue 50
 dnctl pipe 2 config queue 50
+dnctl pipe 3 config bw 100Kbyte/s queue 50
+dnctl pipe 4 config queue 50
 
 # Activate PF
 pfctl -E

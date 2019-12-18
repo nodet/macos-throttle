@@ -26,6 +26,10 @@ dummynet in proto tcp to any port 80 pipe 2
 dummynet in proto tcp to any port 22 pipe 2
 no dummynet quick on lo0 all
 dummynet out all pipe 3
+dummynet out proto icmp all pipe 4
+dummynet out proto tcp to any port 443 pipe 4
+dummynet out proto tcp to any port 80 pipe 4
+dummynet out proto tcp to any port 22 pipe 4
 EOF
 
 # Create the dummynet queue

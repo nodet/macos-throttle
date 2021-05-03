@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Max speeds in KB/sec
-INBOUND=1000
 OUTBOUND=100
 
 #
@@ -11,7 +10,6 @@ OUTBOUND=100
 
 # Reset dummynet to default config
 dnctl -f flush
-
 pfctl -F all
 
 # Compose an addendum to the default config; creates a new anchor
@@ -20,8 +18,8 @@ pfctl -F all
   echo 'anchor "xno_limit"') | pfctl -q -f -
 
 # Configure the new anchor
-# Pipe 1 is the default, and will be limited
-# Pipe 2 will not be limited
+# Pipe 3 is the default, and will be limited
+# Pipe 4 will not be limited
 cat <<EOF | pfctl -q -a xno_limit -f -
 no dummynet quick on lo0 all
 dummynet out all pipe 3

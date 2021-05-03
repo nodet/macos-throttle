@@ -23,22 +23,13 @@ pfctl -F all
 # Pipe 1 is the default, and will be limited
 # Pipe 2 will not be limited
 cat <<EOF | pfctl -q -a xno_limit -f -
-dummynet in quick proto tcp from any to any pipe 1
-dummynet in proto icmp all pipe 2
-dummynet in proto tcp to any port 443 pipe 2
-dummynet in proto tcp to any port 80 pipe 2
-dummynet in proto tcp to any port 22 pipe 2
 no dummynet quick on lo0 all
 dummynet out all pipe 3
+dummynet out to 192.168.0.0/16 pipe 4
 dummynet out proto icmp all pipe 4
-dummynet out proto tcp to any port 443 pipe 4
-dummynet out proto tcp to any port 80 pipe 4
-dummynet out proto tcp to any port 22 pipe 4
 EOF
 
 # Create the dummynet queue
-dnctl pipe 1 config bw ${INBOUND}Kbyte/s queue 50
-dnctl pipe 2 config queue 50
 dnctl pipe 3 config bw ${OUTBOUND}Kbyte/s queue 50
 dnctl pipe 4 config queue 50
 

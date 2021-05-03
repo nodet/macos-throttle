@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Max speeds in KB/sec
+SPEED1=1000
+SPEED3=100
+
 #
 # From https://superuser.com/questions/841604/limiting-upload-bandwidth-in-mac-os-x-yosemite-10-10
 # and https://mop.koeln/blog/limiting-bandwidth-on-mac-os-x-yosemite/
@@ -33,11 +37,9 @@ dummynet out proto tcp to any port 22 pipe 4
 EOF
 
 # Create the dummynet queue
-#dnctl pipe 1 config bw 30Kbyte/s queue 50
-#dnctl pipe 2 config queue 50
-dnctl pipe 1 config bw 300Kbyte/s queue 50
+dnctl pipe 1 config bw ${SPEED1}Kbyte/s queue 50
 dnctl pipe 2 config queue 50
-dnctl pipe 3 config bw 100Kbyte/s queue 50
+dnctl pipe 3 config bw ${SPEED3}Kbyte/s queue 50
 dnctl pipe 4 config queue 50
 
 # Activate PF

@@ -3,6 +3,11 @@
 # Max speeds in KB/sec
 OUTBOUND=100
 
+if [ "$1" != "" ]; then
+   OUTBOUND=$1
+   shift
+fi
+
 #
 # From https://superuser.com/questions/841604/limiting-upload-bandwidth-in-mac-os-x-yosemite-10-10
 # and https://mop.koeln/blog/limiting-bandwidth-on-mac-os-x-yosemite/
@@ -33,3 +38,5 @@ dnctl pipe 4 config queue 50
 
 # Activate PF
 pfctl -E
+
+echo "Output limited to $OUTBOUND KB/s"
